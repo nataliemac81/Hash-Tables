@@ -54,7 +54,14 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        # get the key and value, place it somewhere in the array
+        # get an index for the key
+        index = self._hash_mod(key)
+        
+        if self.storage[index] is not None:
+            print('Warning: Collision at key ' + key)
+        
+        self.storage[index] = LinkedPair(key, value)
 
 
 
@@ -66,7 +73,9 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+
+        self.storage[index] = None
 
 
     def retrieve(self, key):
@@ -77,7 +86,11 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+        
+        if self.storage[index] is None:
+            return None
+        return self.storage[index].value
 
 
     def resize(self):
@@ -87,7 +100,17 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        old_storage = self.storage
+        self.capacity *= 2
+
+        #create a new array size * 2
+        self.storage = [None] * self.capacity
+
+        # replace old k,v pairs with new ones
+        for pair in old_storage:
+            if pair is not None:
+                self.insert(pair.key, pair.value)
+        
 
 
 
